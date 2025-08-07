@@ -155,6 +155,65 @@ body {
       background-position: 100% 50%;
     }
   }
+
+  .ai-fab {
+    @apply fixed bottom-8 right-8 z-50;
+  }
+
+  .ai-fab-button {
+    @apply relative h-16 w-16 rounded-full bg-background text-white flex items-center justify-center;
+    @apply transition-all duration-300 ease-in-out;
+    @apply hover:scale-110;
+  }
+  
+  .ai-fab-button .rainbow-border::before {
+    animation-duration: 4s;
+  }
+  
+  .ai-fab-button svg {
+    @apply h-8 w-8;
+    stroke-width: 1.5;
+    transition: transform 0.3s ease-in-out;
+  }
+
+  .ai-fab-button:hover svg {
+    transform: rotate(15deg) scale(1.1);
+  }
+
+  .ai-fab-button:disabled {
+    @apply scale-100 cursor-not-allowed;
+  }
+
+  .ai-fab-button:disabled::before {
+    content: '';
+    @apply absolute inset-0 bg-black/50 rounded-full;
+  }
+
+  .ai-fab-button:disabled .ai-fab-loader {
+    @apply block;
+  }
+
+  .ai-fab-loader {
+    @apply hidden absolute;
+    width: 24px;
+    height: 24px;
+    border: 2px solid #FFF;
+    border-bottom-color: transparent;
+    border-radius: 50%;
+    display: inline-block;
+    box-sizing: border-box;
+    animation: rotation 1s linear infinite;
+  }
+
+  @keyframes rotation {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+  }
+
 }
 
 @media print {
