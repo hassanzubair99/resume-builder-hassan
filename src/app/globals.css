@@ -224,28 +224,4 @@ body {
   .no-print {
     display: none;
   }
-  .print-container {
-    display: block !important;
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-  }
-  .print-card {
-    box-shadow: none !important;
-    border: none !important;
-    border-radius: 0 !important;
-    padding: 0 !important;
-    margin: 0 !important;
-  }
-  .rainbow-border {
-    padding: 0;
-    border: none;
-  }
-  .rainbow-border::before {
-    display: none;
-  }
-  .rainbow-border > * {
-    border-radius: 0;
-  }
 }

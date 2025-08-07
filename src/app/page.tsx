@@ -3,7 +3,7 @@
 import React, { useState, useRef } from 'react';
 import { FileText, Wand2 } from 'lucide-react';
 import type { ResumeData } from '@/types/resume';
-import { Button } from '@/components/ui/button';
+import { Button, buttonVariants } from '@/components/ui/button';
 import { ResumeForm } from '@/components/resume-form';
 import { ResumePreview } from '@/components/resume-preview';
 import { runEnhanceResume } from '@/app/actions';
@@ -13,6 +13,9 @@ import { Textarea } from '@/components/ui/textarea';
 import { Label } from '@/components/ui/label';
 import { ThemeToggleButton } from '@/components/theme-toggle';
 import { PrintButton } from '@/components/print-button';
+import html2canvas from 'html2canvas';
+import jsPDF from 'jspdf';
+import { cn } from '@/lib/utils';
 
 const initialResumeData: ResumeData = {
   personal: {
@@ -72,7 +75,31 @@ export default function ResumeBuilderPage() {
   const previewRef = useRef<HTMLDivElement>(null);
 
   const handlePrint = () => {
-    window.print();
+    if (previewRef.current) {
+      html2canvas(previewRef.current, { scale: 3 }).then((canvas) => {
+        const imgData = canvas.toDataURL('image/png');
+        const pdf = new jsPDF({
+          orientation: 'portrait',
+          unit: 'mm',
+          format: 'a4',
+        });
+        const pdfWidth = pdf.internal.pageSize.getWidth();
+        const pdfHeight = pdf.internal.pageSize.getHeight();
+        const canvasWidth = canvas.width;
+        const canvasHeight = canvas.height;
+        const ratio = canvasWidth / canvasHeight;
+        const widthInPdf = pdfWidth;
+        const heightInPdf = widthInPdf / ratio;
+
+        // Check if content exceeds A4 height
+        if (heightInPdf > pdfHeight) {
+            console.warn("Content might be too long for a single PDF page.");
+        }
+
+        pdf.addImage(imgData, 'PNG', 0, 0, widthInPdf, heightInPdf);
+        pdf.save('resume.pdf');
+      });
+    }
   };
 
   const handleEnhanceClick = () => {
@@ -112,8 +139,7 @@ export default function ResumeBuilderPage() {
 
   return (
     <div className="min-h-screen bg-background text-foreground">
-      <div className="rainbow-border">
-        <header className="sticky top-0 z-20 bg-background/80 backdrop-blur-sm shadow-sm no-print rounded-t-lg">
+      <header className="sticky top-0 z-20 bg-background/80 backdrop-blur-sm shadow-sm no-print">
           <div className="container mx-auto flex h-16 items-center justify-between px-4">
             <div className="flex items-center gap-2">
               <FileText className="text-primary" />
@@ -123,18 +149,17 @@ export default function ResumeBuilderPage() {
             </div>
             <div className="flex items-center gap-2">
               <ThemeToggleButton />
-              <PrintButton onClick={handlePrint} />
+               <PrintButton onClick={handlePrint} />
             </div>
           </div>
         </header>
-      </div>
 
       <main className="container mx-auto p-4 lg:p-8">
         <div className="grid grid-cols-1 gap-8 lg:grid-cols-2">
           <div className="no-print">
             <ResumeForm resumeData={resumeData} setResumeData={setResumeData} />
           </div>
-          <div className="print-container">
+          <div>
             <ResumePreview ref={previewRef} resumeData={resumeData} />
           </div>
         </div>
