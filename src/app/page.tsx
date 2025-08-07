@@ -4,7 +4,7 @@ import React, { useState, useRef } from 'react';
 import { useReactToPrint } from 'react-to-print';
 import { FileText, Wand2 } from 'lucide-react';
 import type { ResumeData } from '@/types/resume';
-import { Button, buttonVariants } from '@/components/ui/button';
+import { Button } from '@/components/ui/button';
 import { ResumeForm } from '@/components/resume-form';
 import { ResumePreview } from '@/components/resume-preview';
 import { runEnhanceResume } from '@/app/actions';
@@ -13,7 +13,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter, DialogC
 import { Textarea } from '@/components/ui/textarea';
 import { Label } from '@/components/ui/label';
 import { ThemeToggleButton } from '@/components/theme-toggle';
-import { cn } from '@/lib/utils';
+import { PrintButton } from '@/components/print-button';
 
 const initialResumeData: ResumeData = {
   personal: {
@@ -125,9 +125,7 @@ export default function ResumeBuilderPage() {
             </div>
             <div className="flex items-center gap-2">
               <ThemeToggleButton />
-               <button onClick={handlePrint} className={cn(buttonVariants())}>
-                Download PDF
-              </button>
+              <PrintButton onClick={handlePrint} />
             </div>
           </div>
         </header>
