@@ -125,7 +125,6 @@ export default function ResumeBuilderPage() {
             <div className="flex items-center gap-2">
               <ThemeToggleButton />
               <Button onClick={handlePrint}>
-                <Download />
                 Download PDF
               </Button>
             </div>
