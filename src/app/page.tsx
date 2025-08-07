@@ -75,31 +75,48 @@ export default function ResumeBuilderPage() {
   const previewRef = useRef<HTMLDivElement>(null);
 
   const handlePrint = () => {
-    if (previewRef.current) {
-      html2canvas(previewRef.current, { scale: 3 }).then((canvas) => {
-        const imgData = canvas.toDataURL('image/png');
-        const pdf = new jsPDF({
-          orientation: 'portrait',
-          unit: 'mm',
-          format: 'a4',
-        });
-        const pdfWidth = pdf.internal.pageSize.getWidth();
-        const pdfHeight = pdf.internal.pageSize.getHeight();
-        const canvasWidth = canvas.width;
-        const canvasHeight = canvas.height;
-        const ratio = canvasWidth / canvasHeight;
-        const widthInPdf = pdfWidth;
-        const heightInPdf = widthInPdf / ratio;
-
-        // Check if content exceeds A4 height
-        if (heightInPdf > pdfHeight) {
-            console.warn("Content might be too long for a single PDF page.");
-        }
-
-        pdf.addImage(imgData, 'PNG', 0, 0, widthInPdf, heightInPdf);
-        pdf.save('resume.pdf');
+    const input = previewRef.current;
+    if (!input) {
+      console.error("Resume preview element not found");
+      toast({
+        variant: "destructive",
+        title: "Download Failed",
+        description: "Could not find the resume preview to download.",
       });
+      return;
     }
+
+    html2canvas(input, { scale: 3, useCORS: true }).then((canvas) => {
+      const imgData = canvas.toDataURL('image/png');
+      const pdf = new jsPDF({
+        orientation: 'portrait',
+        unit: 'mm',
+        format: 'a4',
+      });
+      const pdfWidth = pdf.internal.pageSize.getWidth();
+      const pdfHeight = pdf.internal.pageSize.getHeight();
+      const canvasWidth = canvas.width;
+      const canvasHeight = canvas.height;
+      const ratio = canvasWidth / canvasHeight;
+      const widthInPdf = pdfWidth;
+      const heightInPdf = widthInPdf / ratio;
+      
+      let finalHeight = heightInPdf;
+      if (heightInPdf > pdfHeight) {
+        console.warn("Content might be too long for a single PDF page.");
+        finalHeight = pdfHeight;
+      }
+
+      pdf.addImage(imgData, 'PNG', 0, 0, widthInPdf, finalHeight);
+      pdf.save('resume.pdf');
+    }).catch(err => {
+      console.error("Error generating PDF", err);
+      toast({
+        variant: "destructive",
+        title: "Download Failed",
+        description: "An error occurred while generating the PDF.",
+      });
+    });
   };
 
   const handleEnhanceClick = () => {
