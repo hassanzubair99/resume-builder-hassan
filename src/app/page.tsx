@@ -1,7 +1,6 @@
 'use client';
 
 import React, { useState, useRef } from 'react';
-import { useReactToPrint } from 'react-to-print';
 import { FileText, Wand2 } from 'lucide-react';
 import type { ResumeData } from '@/types/resume';
 import { Button } from '@/components/ui/button';
@@ -35,7 +34,7 @@ const initialResumeData: ResumeData = {
       role: 'Software Engineer',
       startDate: 'Jan 2022',
       endDate: 'Present',
-      description: '- Developed and maintained web applications using React, Node.js, and TypeScript.\n- Collaborated with cross-functional teams to define, design, and ship new features.\n- Improved application performance by 20% through code optimization.',
+      description: '- Developed and maintained web applications using React, Node.js, and TypeScript.\\n- Collaborated with cross-functional teams to define, design, and ship new features.\\n- Improved application performance by 20% through code optimization.',
     },
   ],
   education: [
@@ -45,7 +44,7 @@ const initialResumeData: ResumeData = {
       degree: 'B.S. in Computer Science',
       startDate: 'Sep 2018',
       endDate: 'May 2022',
-      description: '- Graduated with honors.\n- Member of the coding club.',
+      description: '- Graduated with honors.\\n- Member of the coding club.',
     },
   ],
   skills: [
@@ -72,10 +71,9 @@ export default function ResumeBuilderPage() {
   const { toast } = useToast();
   const previewRef = useRef<HTMLDivElement>(null);
 
-  const handlePrint = useReactToPrint({
-    content: () => previewRef.current,
-    documentTitle: `${resumeData.personal.name.replace(' ', '_')}_Resume`,
-  });
+  const handlePrint = () => {
+    window.print();
+  };
 
   const handleEnhanceClick = () => {
     setIsAiPromptOpen(true);
