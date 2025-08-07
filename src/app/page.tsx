@@ -9,7 +9,9 @@ import { ResumeForm } from '@/components/resume-form';
 import { ResumePreview } from '@/components/resume-preview';
 import { runEnhanceResume } from '@/app/actions';
 import { useToast } from '@/hooks/use-toast';
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter, DialogClose } from '@/components/ui/dialog';
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter, DialogClose, DialogDescription } from '@/components/ui/dialog';
+import { Textarea } from '@/components/ui/textarea';
+import { Label } from '@/components/ui/label';
 
 const initialResumeData: ResumeData = {
   personal: {
@@ -54,35 +56,16 @@ const initialResumeData: ResumeData = {
 };
 
 const AiFabIcon = () => (
-  <>
-    <svg width="0" height="0" style={{ position: 'absolute' }}>
-      <defs>
-        <linearGradient id="ai-fab-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
-          <stop offset="0%" style={{ stopColor: '#ef4444' }} />
-          <stop offset="25%" style={{ stopColor: '#f97316' }} />
-          <stop offset="50%" style={{ stopColor: '#eab308' }} />
-          <stop offset="75%" style={{ stopColor: '#22c55e' }} />
-          <stop offset="100%" style={{ stopColor: '#3b82f6' }} />
-        </linearGradient>
-      </defs>
-    </svg>
-    <svg viewBox="0 0 24 24" fill="none" stroke="url(#ai-fab-gradient)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-      <path d="M12 3c-4.97 0-9 4.03-9 9s4.03 9 9 9c.79 0 1.55-.1 2.28-.29" />
-      <path d="M15.42 4.1a9 9 0 0 1 5.48 3.8" />
-      <path d="M12 8a4 4 0 0 0-4 4h8a4 4 0 0 0-4-4z" />
-      <path d="M12 12v6" />
-      <path d="m18 13 1.5-3" />
-      <path d="m6 13-1.5-3" />
-      <path d="m17 21 3-3" />
-    </svg>
-  </>
+    <Wand2 />
 );
 
 
 export default function ResumeBuilderPage() {
   const [resumeData, setResumeData] = useState<ResumeData>(initialResumeData);
   const [isEnhancing, setIsEnhancing] = useState(false);
-  const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [isAiPromptOpen, setIsAiPromptOpen] = useState(false);
+  const [isResultDialogOpen, setIsResultDialogOpen] = useState(false);
+  const [aiPrompt, setAiPrompt] = useState('');
   const [dialogContent, setDialogContent] = useState<{ enhancedResume: ResumeData, suggestions: string[] } | null>(null);
   const { toast } = useToast();
   const previewRef = useRef<HTMLDivElement>(null);
@@ -92,27 +75,34 @@ export default function ResumeBuilderPage() {
     documentTitle: `${resumeData.personal.name.replace(' ', '_')}_Resume`,
   });
 
-  const handleEnhanceResume = async () => {
+  const handleEnhanceClick = () => {
+    setIsAiPromptOpen(true);
+  };
+
+  const handleRunEnhancement = async () => {
+    setIsAiPromptOpen(false);
     setIsEnhancing(true);
     try {
-      const result = await runEnhanceResume(resumeData);
+      const result = await runEnhanceResume({ resume: resumeData, prompt: aiPrompt });
       setDialogContent(result);
-      setIsDialogOpen(true);
+      setIsResultDialogOpen(true);
     } catch (error) {
+      const errorMessage = error instanceof Error ? error.message : 'An unknown error occurred.';
       toast({
         variant: 'destructive',
         title: 'Enhancement Failed',
-        description: 'Could not enhance the resume. Please try again later.',
+        description: errorMessage,
       });
     } finally {
       setIsEnhancing(false);
+      setAiPrompt('');
     }
   };
   
   const onApplyEnhancement = () => {
     if (dialogContent) {
       setResumeData(dialogContent.enhancedResume);
-      setIsDialogOpen(false);
+      setIsResultDialogOpen(false);
       toast({
         title: 'Resume Enhanced',
         description: 'Your resume has been updated with AI suggestions.',
@@ -151,7 +141,7 @@ export default function ResumeBuilderPage() {
       </main>
 
       <div className="ai-fab no-print">
-        <button className="ai-fab-button" onClick={handleEnhanceResume} disabled={isEnhancing} title="Enhance Resume with AI">
+        <button className="ai-fab-button" onClick={handleEnhanceClick} disabled={isEnhancing} title="Enhance Resume with AI">
           <div className="rainbow-border rounded-full w-full h-full">
             <div className="w-full h-full bg-background rounded-full flex items-center justify-center">
               {isEnhancing ? <span className="ai-fab-loader"></span> : <AiFabIcon />}
@@ -160,7 +150,36 @@ export default function ResumeBuilderPage() {
         </button>
       </div>
 
-       <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
+      <Dialog open={isAiPromptOpen} onOpenChange={setIsAiPromptOpen}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Enhance Resume with AI</DialogTitle>
+            <DialogDescription>
+              Enter a prompt to guide the AI, or leave it blank for general improvements.
+            </DialogDescription>
+          </DialogHeader>
+          <div className="grid gap-4 py-4">
+            <div className="grid grid-cols-4 items-center gap-4">
+              <Label htmlFor="ai-prompt" className="text-right">
+                Prompt
+              </Label>
+              <Textarea
+                id="ai-prompt"
+                value={aiPrompt}
+                onChange={(e) => setAiPrompt(e.target.value)}
+                className="col-span-3"
+                placeholder="e.g., 'Make my resume sound more professional for a startup'"
+              />
+            </div>
+          </div>
+          <DialogFooter>
+            <Button variant="outline" onClick={() => setIsAiPromptOpen(false)}>Cancel</Button>
+            <Button onClick={handleRunEnhancement}>Enhance</Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+
+       <Dialog open={isResultDialogOpen} onOpenChange={setIsResultDialogOpen}>
         <DialogContent className="max-w-4xl">
           <DialogHeader>
             <DialogTitle>AI Resume Enhancement</DialogTitle>

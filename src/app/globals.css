@@ -171,7 +171,7 @@ body {
   }
   
   .ai-fab-button svg {
-    @apply h-8 w-8;
+    @apply h-8 w-8 text-primary;
     stroke-width: 1.5;
     transition: transform 0.3s ease-in-out;
   }
