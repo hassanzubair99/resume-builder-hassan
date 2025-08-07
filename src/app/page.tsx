@@ -13,7 +13,6 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter, DialogC
 import { Textarea } from '@/components/ui/textarea';
 import { Label } from '@/components/ui/label';
 import { ThemeToggleButton } from '@/components/theme-toggle';
-import { PrintButton } from '@/components/print-button';
 import { cn } from '@/lib/utils';
 
 const initialResumeData: ResumeData = {
@@ -126,7 +125,9 @@ export default function ResumeBuilderPage() {
             </div>
             <div className="flex items-center gap-2">
               <ThemeToggleButton />
-               <PrintButton onClick={handlePrint} />
+               <button onClick={handlePrint} className={cn(buttonVariants())}>
+                Download PDF
+              </button>
             </div>
           </div>
         </header>
