@@ -113,150 +113,152 @@ export function ResumeForm({ resumeData, setResumeData }: ResumeFormProps) {
 
   return (
     <>
-      <Card className="rainbow-shadow">
-        <CardContent className="p-0">
-          <Accordion type="single" collapsible defaultValue="personal" className="w-full">
-            
-            <AccordionItem value="personal">
-              <AccordionTrigger className="p-6"><div className="flex items-center gap-3"><User />Personal Details</div></AccordionTrigger>
-              <AccordionContent className="px-6 pb-6">
-                <div className="space-y-4">
-                  <div className="flex items-center gap-4">
-                    <Avatar className="h-20 w-20">
-                      <AvatarImage src={resumeData.personal.image} alt={resumeData.personal.name} />
-                      <AvatarFallback><User size={32}/></AvatarFallback>
-                    </Avatar>
-                    <div className="flex-1">
-                      <Label htmlFor="picture-upload">Profile Picture</Label>
-                       <Input id="picture-upload" type="file" accept="image/*" onChange={handleImageUpload} className="text-sm" />
-                       <p className="text-xs text-muted-foreground mt-1">Upload a professional headshot.</p>
-                    </div>
-                  </div>
-                  <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
-                    <div>
-                      <Label htmlFor="name">Full Name</Label>
-                      <Input id="name" value={resumeData.personal.name} onChange={e => handleChange('personal', 'name', e.target.value)} />
-                    </div>
-                    <div>
-                      <Label htmlFor="title">Title</Label>
-                      <Input id="title" value={resumeData.personal.title} onChange={e => handleChange('personal', 'title', e.target.value)} />
-                    </div>
-                    <div>
-                      <Label htmlFor="email">Email</Label>
-                      <Input id="email" type="email" value={resumeData.personal.email} onChange={e => handleChange('personal', 'email', e.target.value)} />
-                    </div>
-                    <div>
-                      <Label htmlFor="phone">Phone</Label>
-                      <Input id="phone" value={resumeData.personal.phone} onChange={e => handleChange('personal', 'phone', e.target.value)} />
-                    </div>
-                    <div>
-                      <Label htmlFor="location">Location</Label>
-                      <Input id="location" value={resumeData.personal.location} onChange={e => handleChange('personal', 'location', e.target.value)} />
-                    </div>
-                    <div>
-                      <Label htmlFor="linkedin">LinkedIn Profile URL</Label>
-                      <Input id="linkedin" value={resumeData.personal.linkedin} onChange={e => handleChange('personal', 'linkedin', e.target.value)} />
-                    </div>
-                     <div>
-                      <Label htmlFor="website">Website/Portfolio URL</Label>
-                      <Input id="website" value={resumeData.personal.website} onChange={e => handleChange('personal', 'website', e.target.value)} />
-                    </div>
-                  </div>
-                </div>
-              </AccordionContent>
-            </AccordionItem>
-            
-            <AccordionItem value="summary">
-              <AccordionTrigger className="p-6"><div className="flex items-center gap-3"><Briefcase />Professional Summary</div></AccordionTrigger>
-              <AccordionContent className="px-6 pb-6">
-                <div className="space-y-2">
-                  <Label htmlFor="summary">Summary</Label>
-                  <Textarea id="summary" value={resumeData.summary} onChange={e => setResumeData(p => ({ ...p, summary: e.target.value }))} rows={5} />
-                  <Button variant="outline" size="sm" onClick={() => handleOptimize(resumeData.summary, (newContent) => setResumeData(p => ({ ...p, summary: newContent })))} disabled={optimizing}>
-                    <Wand2 className="mr-2 h-4 w-4" /> {optimizing ? 'Optimizing...' : 'Optimize with AI'}
-                  </Button>
-                </div>
-              </AccordionContent>
-            </AccordionItem>
-
-            <AccordionItem value="experience">
-              <AccordionTrigger className="p-6"><div className="flex items-center gap-3"><Briefcase />Work Experience</div></AccordionTrigger>
-              <AccordionContent className="px-6 pb-6">
-                <div className="space-y-6">
-                  {resumeData.experience.map((exp, index) => (
-                    <div key={exp.id} className="space-y-4 rounded-md border p-4 relative">
-                      <Button variant="ghost" size="icon" className="absolute top-2 right-2 h-7 w-7" onClick={() => removeListItem('experience', exp.id)}>
-                        <Trash2 className="h-4 w-4 text-destructive" />
-                      </Button>
-                      <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
-                        <div><Label>Company</Label><Input value={exp.company} onChange={e => handleListItemChange('experience', index, 'company', e.target.value)} /></div>
-                        <div><Label>Role</Label><Input value={exp.role} onChange={e => handleListItemChange('experience', index, 'role', e.target.value)} /></div>
-                        <div><Label>Start Date</Label><Input value={exp.startDate} onChange={e => handleListItemChange('experience', index, 'startDate', e.target.value)} /></div>
-                        <div><Label>End Date</Label><Input value={exp.endDate} onChange={e => handleListItemChange('experience', index, 'endDate', e.target.value)} /></div>
-                      </div>
-                      <div className="space-y-2">
-                        <Label>Description</Label>
-                        <Textarea value={exp.description} onChange={e => handleListItemChange('experience', index, 'description', e.target.value)} rows={4} />
-                        <Button variant="outline" size="sm" onClick={() => handleOptimize(exp.description, (newContent) => handleListItemChange('experience', index, 'description', newContent))} disabled={optimizing}>
-                           <Wand2 className="mr-2 h-4 w-4" /> {optimizing ? 'Optimizing...' : 'Optimize with AI'}
-                        </Button>
+      <div className="rainbow-border">
+        <Card className="shadow-none">
+          <CardContent className="p-0">
+            <Accordion type="single" collapsible defaultValue="personal" className="w-full">
+              
+              <AccordionItem value="personal">
+                <AccordionTrigger className="p-6"><div className="flex items-center gap-3"><User />Personal Details</div></AccordionTrigger>
+                <AccordionContent className="px-6 pb-6">
+                  <div className="space-y-4">
+                    <div className="flex items-center gap-4">
+                      <Avatar className="h-20 w-20">
+                        <AvatarImage src={resumeData.personal.image} alt={resumeData.personal.name} />
+                        <AvatarFallback><User size={32}/></AvatarFallback>
+                      </Avatar>
+                      <div className="flex-1">
+                        <Label htmlFor="picture-upload">Profile Picture</Label>
+                         <Input id="picture-upload" type="file" accept="image/*" onChange={handleImageUpload} className="text-sm" />
+                         <p className="text-xs text-muted-foreground mt-1">Upload a professional headshot.</p>
                       </div>
                     </div>
-                  ))}
-                  <Button variant="outline" onClick={() => addListItem('experience')}><PlusCircle className="mr-2 h-4 w-4" /> Add Experience</Button>
-                </div>
-              </AccordionContent>
-            </AccordionItem>
-
-            <AccordionItem value="education">
-               <AccordionTrigger className="p-6"><div className="flex items-center gap-3"><GraduationCap />Education</div></AccordionTrigger>
-               <AccordionContent className="px-6 pb-6">
-                 <div className="space-y-6">
-                  {resumeData.education.map((edu, index) => (
-                    <div key={edu.id} className="space-y-4 rounded-md border p-4 relative">
-                       <Button variant="ghost" size="icon" className="absolute top-2 right-2 h-7 w-7" onClick={() => removeListItem('education', edu.id)}>
-                        <Trash2 className="h-4 w-4 text-destructive" />
-                      </Button>
-                      <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
-                        <div><Label>Institution</Label><Input value={edu.institution} onChange={e => handleListItemChange('education', index, 'institution', e.target.value)} /></div>
-                        <div><Label>Degree/Certificate</Label><Input value={edu.degree} onChange={e => handleListItemChange('education', index, 'degree', e.target.value)} /></div>
-                        <div><Label>Start Date</Label><Input value={edu.startDate} onChange={e => handleListItemChange('education', index, 'startDate', e.target.value)} /></div>
-                        <div><Label>End Date</Label><Input value={edu.endDate} onChange={e => handleListItemChange('education', index, 'endDate', e.target.value)} /></div>
+                    <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+                      <div>
+                        <Label htmlFor="name">Full Name</Label>
+                        <Input id="name" value={resumeData.personal.name} onChange={e => handleChange('personal', 'name', e.target.value)} />
                       </div>
                       <div>
-                        <Label>Description</Label>
-                        <Textarea value={edu.description} onChange={e => handleListItemChange('education', index, 'description', e.target.value)} rows={2} />
+                        <Label htmlFor="title">Title</Label>
+                        <Input id="title" value={resumeData.personal.title} onChange={e => handleChange('personal', 'title', e.target.value)} />
+                      </div>
+                      <div>
+                        <Label htmlFor="email">Email</Label>
+                        <Input id="email" type="email" value={resumeData.personal.email} onChange={e => handleChange('personal', 'email', e.target.value)} />
+                      </div>
+                      <div>
+                        <Label htmlFor="phone">Phone</Label>
+                        <Input id="phone" value={resumeData.personal.phone} onChange={e => handleChange('personal', 'phone', e.target.value)} />
+                      </div>
+                      <div>
+                        <Label htmlFor="location">Location</Label>
+                        <Input id="location" value={resumeData.personal.location} onChange={e => handleChange('personal', 'location', e.target.value)} />
+                      </div>
+                      <div>
+                        <Label htmlFor="linkedin">LinkedIn Profile URL</Label>
+                        <Input id="linkedin" value={resumeData.personal.linkedin} onChange={e => handleChange('personal', 'linkedin', e.target.value)} />
+                      </div>
+                       <div>
+                        <Label htmlFor="website">Website/Portfolio URL</Label>
+                        <Input id="website" value={resumeData.personal.website} onChange={e => handleChange('personal', 'website', e.target.value)} />
                       </div>
                     </div>
-                  ))}
-                  <Button variant="outline" onClick={() => addListItem('education')}><PlusCircle className="mr-2 h-4 w-4" /> Add Education</Button>
-                </div>
-               </AccordionContent>
-            </AccordionItem>
-            
-            <AccordionItem value="skills">
-               <AccordionTrigger className="p-6"><div className="flex items-center gap-3"><Star />Skills</div></AccordionTrigger>
-               <AccordionContent className="px-6 pb-6">
-                <div className="space-y-4">
-                    <p className="text-sm text-muted-foreground">Add your key skills.</p>
-                    <div className="flex flex-wrap gap-2">
-                        {resumeData.skills.map((skill, index) => (
-                             <div key={skill.id} className="flex items-center gap-1 rounded-md border bg-secondary p-1">
-                                <Input className="h-7 border-0 bg-transparent focus-visible:ring-0" value={skill.name} onChange={e => handleListItemChange('skills', index, 'name', e.target.value)} />
-                                <Button variant="ghost" size="icon" className="h-6 w-6 shrink-0" onClick={() => removeListItem('skills', skill.id)}>
-                                    <Trash2 className="h-3 w-3 text-destructive" />
-                                </Button>
-                             </div>
-                        ))}
-                    </div>
-                    <Button variant="outline" onClick={() => addListItem('skills')}><PlusCircle className="mr-2 h-4 w-4" /> Add Skill</Button>
-                </div>
-               </AccordionContent>
-            </AccordionItem>
+                  </div>
+                </AccordionContent>
+              </AccordionItem>
+              
+              <AccordionItem value="summary">
+                <AccordionTrigger className="p-6"><div className="flex items-center gap-3"><Briefcase />Professional Summary</div></AccordionTrigger>
+                <AccordionContent className="px-6 pb-6">
+                  <div className="space-y-2">
+                    <Label htmlFor="summary">Summary</Label>
+                    <Textarea id="summary" value={resumeData.summary} onChange={e => setResumeData(p => ({ ...p, summary: e.target.value }))} rows={5} />
+                    <Button variant="outline" size="sm" onClick={() => handleOptimize(resumeData.summary, (newContent) => setResumeData(p => ({ ...p, summary: newContent })))} disabled={optimizing}>
+                      <Wand2 className="mr-2 h-4 w-4" /> {optimizing ? 'Optimizing...' : 'Optimize with AI'}
+                    </Button>
+                  </div>
+                </AccordionContent>
+              </AccordionItem>
 
-          </Accordion>
-        </CardContent>
-      </Card>
+              <AccordionItem value="experience">
+                <AccordionTrigger className="p-6"><div className="flex items-center gap-3"><Briefcase />Work Experience</div></AccordionTrigger>
+                <AccordionContent className="px-6 pb-6">
+                  <div className="space-y-6">
+                    {resumeData.experience.map((exp, index) => (
+                      <div key={exp.id} className="space-y-4 rounded-md border p-4 relative">
+                        <Button variant="ghost" size="icon" className="absolute top-2 right-2 h-7 w-7" onClick={() => removeListItem('experience', exp.id)}>
+                          <Trash2 className="h-4 w-4 text-destructive" />
+                        </Button>
+                        <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+                          <div><Label>Company</Label><Input value={exp.company} onChange={e => handleListItemChange('experience', index, 'company', e.target.value)} /></div>
+                          <div><Label>Role</Label><Input value={exp.role} onChange={e => handleListItemChange('experience', index, 'role', e.target.value)} /></div>
+                          <div><Label>Start Date</Label><Input value={exp.startDate} onChange={e => handleListItemChange('experience', index, 'startDate', e.target.value)} /></div>
+                          <div><Label>End Date</Label><Input value={exp.endDate} onChange={e => handleListItemChange('experience', index, 'endDate', e.target.value)} /></div>
+                        </div>
+                        <div className="space-y-2">
+                          <Label>Description</Label>
+                          <Textarea value={exp.description} onChange={e => handleListItemChange('experience', index, 'description', e.target.value)} rows={4} />
+                          <Button variant="outline" size="sm" onClick={() => handleOptimize(exp.description, (newContent) => handleListItemChange('experience', index, 'description', newContent))} disabled={optimizing}>
+                             <Wand2 className="mr-2 h-4 w-4" /> {optimizing ? 'Optimizing...' : 'Optimize with AI'}
+                          </Button>
+                        </div>
+                      </div>
+                    ))}
+                    <Button variant="outline" onClick={() => addListItem('experience')}><PlusCircle className="mr-2 h-4 w-4" /> Add Experience</Button>
+                  </div>
+                </AccordionContent>
+              </AccordionItem>
+
+              <AccordionItem value="education">
+                 <AccordionTrigger className="p-6"><div className="flex items-center gap-3"><GraduationCap />Education</div></AccordionTrigger>
+                 <AccordionContent className="px-6 pb-6">
+                   <div className="space-y-6">
+                    {resumeData.education.map((edu, index) => (
+                      <div key={edu.id} className="space-y-4 rounded-md border p-4 relative">
+                         <Button variant="ghost" size="icon" className="absolute top-2 right-2 h-7 w-7" onClick={() => removeListItem('education', edu.id)}>
+                          <Trash2 className="h-4 w-4 text-destructive" />
+                        </Button>
+                        <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+                          <div><Label>Institution</Label><Input value={edu.institution} onChange={e => handleListItemChange('education', index, 'institution', e.target.value)} /></div>
+                          <div><Label>Degree/Certificate</Label><Input value={edu.degree} onChange={e => handleListItemChange('education', index, 'degree', e.target.value)} /></div>
+                          <div><Label>Start Date</Label><Input value={edu.startDate} onChange={e => handleListItemChange('education', index, 'startDate', e.target.value)} /></div>
+                          <div><Label>End Date</Label><Input value={edu.endDate} onChange={e => handleListItemChange('education', index, 'endDate', e.target.value)} /></div>
+                        </div>
+                        <div>
+                          <Label>Description</Label>
+                          <Textarea value={edu.description} onChange={e => handleListItemChange('education', index, 'description', e.target.value)} rows={2} />
+                        </div>
+                      </div>
+                    ))}
+                    <Button variant="outline" onClick={() => addListItem('education')}><PlusCircle className="mr-2 h-4 w-4" /> Add Education</Button>
+                  </div>
+                 </AccordionContent>
+              </AccordionItem>
+              
+              <AccordionItem value="skills">
+                 <AccordionTrigger className="p-6"><div className="flex items-center gap-3"><Star />Skills</div></AccordionTrigger>
+                 <AccordionContent className="px-6 pb-6">
+                  <div className="space-y-4">
+                      <p className="text-sm text-muted-foreground">Add your key skills.</p>
+                      <div className="flex flex-wrap gap-2">
+                          {resumeData.skills.map((skill, index) => (
+                               <div key={skill.id} className="flex items-center gap-1 rounded-md border bg-secondary p-1">
+                                  <Input className="h-7 border-0 bg-transparent focus-visible:ring-0" value={skill.name} onChange={e => handleListItemChange('skills', index, 'name', e.target.value)} />
+                                  <Button variant="ghost" size="icon" className="h-6 w-6 shrink-0" onClick={() => removeListItem('skills', skill.id)}>
+                                      <Trash2 className="h-3 w-3 text-destructive" />
+                                  </Button>
+                               </div>
+                          ))}
+                      </div>
+                      <Button variant="outline" onClick={() => addListItem('skills')}><PlusCircle className="mr-2 h-4 w-4" /> Add Skill</Button>
+                  </div>
+                 </AccordionContent>
+              </AccordionItem>
+
+            </Accordion>
+          </CardContent>
+        </Card>
+      </div>
 
       <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
         <DialogContent className="max-w-3xl">
