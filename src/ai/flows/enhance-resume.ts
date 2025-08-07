@@ -79,7 +79,7 @@ const enhanceResumePrompt = ai.definePrompt({
   {{/if}}
 
   Here is the resume data in JSON format:
-  {{{jsonStringify resume}}}
+  {{json resume}}
   `,
 });
 

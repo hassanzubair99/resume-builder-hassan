@@ -22,7 +22,8 @@ export async function runOptimizeResumeContent(
     return result;
   } catch (error) {
     console.error('Error optimizing resume content:', error);
-    throw new Error('Failed to optimize content due to a server-side error. Please try again.');
+    const message = error instanceof Error ? error.message : 'An unknown error occurred.';
+    throw new Error(`Failed to optimize content: ${message}`);
   }
 }
 
@@ -37,6 +38,7 @@ export async function runEnhanceResume(
     return result;
   } catch (error) {
     console.error('Error enhancing resume:', error);
-    throw new Error('Failed to enhance resume due to a server-side error. Please try again.');
+    const message = error instanceof Error ? error.message : 'An unknown error occurred.';
+    throw new Error(`Failed to enhance resume: ${message}`);
   }
 }
