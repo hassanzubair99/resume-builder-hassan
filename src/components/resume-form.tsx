@@ -113,7 +113,7 @@ export function ResumeForm({ resumeData, setResumeData }: ResumeFormProps) {
 
   return (
     <>
-      <Card>
+      <Card className="rainbow-shadow">
         <CardContent className="p-0">
           <Accordion type="single" collapsible defaultValue="personal" className="w-full">
             

@@ -36,7 +36,7 @@ export const ResumePreview = React.forwardRef<HTMLDivElement, ResumePreviewProps
 
     return (
       <div ref={ref} className="print-card">
-        <Card className="w-full max-w-[210mm] mx-auto shadow-lg aspect-[1/1.414] p-8 md:p-12 text-sm">
+        <Card className="w-full max-w-[210mm] mx-auto shadow-lg aspect-[1/1.414] p-8 md:p-12 text-sm rainbow-shadow">
           <CardContent className="p-0">
             <header className="flex items-center gap-8 mb-8">
               {personal.image && (
