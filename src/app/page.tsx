@@ -62,20 +62,22 @@ export default function ResumeBuilderPage() {
 
   return (
     <div className="min-h-screen bg-background text-foreground">
-      <header className="sticky top-0 z-20 bg-background/80 backdrop-blur-sm shadow-sm no-print">
-        <div className="container mx-auto flex h-16 items-center justify-between px-4">
-          <div className="flex items-center gap-2">
-            <FileText className="text-primary" />
-            <h1 className="text-xl font-bold tracking-tight text-primary">
-              Resume Architect
-            </h1>
+      <div className="rainbow-border">
+        <header className="sticky top-0 z-20 bg-background/80 backdrop-blur-sm shadow-sm no-print rounded-t-lg">
+          <div className="container mx-auto flex h-16 items-center justify-between px-4">
+            <div className="flex items-center gap-2">
+              <FileText className="text-primary" />
+              <h1 className="text-xl font-bold tracking-tight text-primary">
+                Resume Architect
+              </h1>
+            </div>
+            <Button onClick={handlePrint}>
+              <Download />
+              Download PDF
+            </Button>
           </div>
-          <Button onClick={handlePrint}>
-            <Download />
-            Download PDF
-          </Button>
-        </div>
-      </header>
+        </header>
+      </div>
 
       <main className="container mx-auto p-4 lg:p-8">
         <div className="grid grid-cols-1 gap-8 lg:grid-cols-2">
