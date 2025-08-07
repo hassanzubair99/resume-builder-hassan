@@ -12,6 +12,7 @@ import { useToast } from '@/hooks/use-toast';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter, DialogClose, DialogDescription } from '@/components/ui/dialog';
 import { Textarea } from '@/components/ui/textarea';
 import { Label } from '@/components/ui/label';
+import { ThemeToggleButton } from '@/components/theme-toggle';
 
 const initialResumeData: ResumeData = {
   personal: {
@@ -121,10 +122,13 @@ export default function ResumeBuilderPage() {
                 Resume Architect
               </h1>
             </div>
-            <Button onClick={handlePrint}>
-              <Download />
-              Download PDF
-            </Button>
+            <div className="flex items-center gap-2">
+              <ThemeToggleButton />
+              <Button onClick={handlePrint}>
+                <Download />
+                Download PDF
+              </Button>
+            </div>
           </div>
         </header>
       </div>

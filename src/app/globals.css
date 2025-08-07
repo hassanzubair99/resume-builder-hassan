@@ -8,6 +8,42 @@ body {
 
 @layer base {
   :root {
+    --background: 0 0% 100%;
+    --foreground: 0 0% 3.9%;
+    --card: 0 0% 100%;
+    --card-foreground: 0 0% 3.9%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 0 0% 3.9%;
+    --primary: 0 0% 9%;
+    --primary-foreground: 0 0% 98%;
+    --secondary: 0 0% 96.1%;
+    --secondary-foreground: 0 0% 9%;
+    --muted: 0 0% 96.1%;
+    --muted-foreground: 0 0% 45.1%;
+    --accent: 0 0% 96.1%;
+    --accent-foreground: 0 0% 9%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 0 0% 89.8%;
+    --input: 0 0% 89.8%;
+    --ring: 0 0% 3.9%;
+    --radius: 0.5rem;
+    --chart-1: 0 0% 50%;
+    --chart-2: 0 0% 40%;
+    --chart-3: 0 0% 30%;
+    --chart-4: 0 0% 20%;
+    --chart-5: 0 0% 10%;
+    --sidebar-background: 0 0% 98%;
+    --sidebar-foreground: 0 0% 9%;
+    --sidebar-primary: 0 0% 9%;
+    --sidebar-primary-foreground: 0 0% 98%;
+    --sidebar-accent: 0 0% 96.1%;
+    --sidebar-accent-foreground: 0 0% 9%;
+    --sidebar-border: 0 0% 89.8%;
+    --sidebar-ring: 0 0% 59.8%;
+  }
+
+  .dark {
     --background: 0 0% 0%;
     --foreground: 0 0% 100%;
     --card: 0 0% 0%;
@@ -27,41 +63,6 @@ body {
     --border: 0 0% 15%;
     --input: 0 0% 15%;
     --ring: 0 0% 83%;
-    --chart-1: 0 0% 50%;
-    --chart-2: 0 0% 40%;
-    --chart-3: 0 0% 30%;
-    --chart-4: 0 0% 20%;
-    --chart-5: 0 0% 10%;
-    --radius: 0.5rem;
-    --sidebar-background: 0 0% 10%;
-    --sidebar-foreground: 0 0% 95.9%;
-    --sidebar-primary: 0 0% 98%;
-    --sidebar-primary-foreground: 0 0% 9%;
-    --sidebar-accent: 0 0% 15.9%;
-    --sidebar-accent-foreground: 0 0% 95.9%;
-    --sidebar-border: 0 0% 15.9%;
-    --sidebar-ring: 0 0% 59.8%;
-  }
-  .dark {
-    --background: 240 10% 3.9%;
-    --foreground: 0 0% 98%;
-    --card: 240 10% 3.9%;
-    --card-foreground: 0 0% 98%;
-    --popover: 240 10% 3.9%;
-    --popover-foreground: 0 0% 98%;
-    --primary: 0 0% 98%;
-    --primary-foreground: 240 5.9% 10%;
-    --secondary: 240 3.7% 15.9%;
-    --secondary-foreground: 0 0% 98%;
-    --muted: 240 3.7% 15.9%;
-    --muted-foreground: 240 5% 64.9%;
-    --accent: 240 3.7% 15.9%;
-    --accent-foreground: 0 0% 98%;
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 0 0% 98%;
-    --border: 240 3.7% 15.9%;
-    --input: 240 3.7% 15.9%;
-    --ring: 240 4.9% 83.9%;
     --chart-1: 0 0% 50%;
     --chart-2: 0 0% 60%;
     --chart-3: 0 0% 70%;
@@ -93,17 +94,17 @@ body {
   }
   .rainbow-shadow {
     transition: all 0.3s ease-in-out;
-    box-shadow: 
-      3px 3px 0px #ef4444,  /* red-500 */
-      6px 6px 0px #f97316,  /* orange-500 */
-      9px 9px 0px #eab308,  /* yellow-500 */
-      12px 12px 0px #22c55e, /* green-500 */
-      15px 15px 0px #3b82f6, /* blue-500 */
-      18px 18px 0px #8b5cf6; /* violet-500 */
+    box-shadow:
+      3px 3px 0px #ef4444,
+      /* red-500 */ 6px 6px 0px #f97316,
+      /* orange-500 */ 9px 9px 0px #eab308,
+      /* yellow-500 */ 12px 12px 0px #22c55e,
+      /* green-500 */ 15px 15px 0px #3b82f6,
+      /* blue-500 */ 18px 18px 0px #8b5cf6; /* violet-500 */
   }
   .rainbow-shadow:hover {
     transform: translate(-3px, -3px) scale(1.02);
-    box-shadow: 
+    box-shadow:
       6px 6px 5px #ef4444,
       9px 9px 5px #f97316,
       12px 12px 5px #eab308,
@@ -165,11 +166,11 @@ body {
     @apply transition-all duration-300 ease-in-out;
     @apply hover:scale-110;
   }
-  
+
   .ai-fab-button .rainbow-border::before {
     animation-duration: 4s;
   }
-  
+
   .ai-fab-button svg {
     @apply h-8 w-8 text-primary;
     stroke-width: 1.5;
@@ -197,7 +198,7 @@ body {
     @apply hidden absolute;
     width: 24px;
     height: 24px;
-    border: 2px solid #FFF;
+    border: 2px solid #fff;
     border-bottom-color: transparent;
     border-radius: 50%;
     display: inline-block;
@@ -207,13 +208,12 @@ body {
 
   @keyframes rotation {
     0% {
-        transform: rotate(0deg);
+      transform: rotate(0deg);
     }
     100% {
-        transform: rotate(360deg);
+      transform: rotate(360deg);
     }
   }
-
 }
 
 @media print {
